@@ -21,7 +21,7 @@ const SideBar = () => {
   const slideBarItems = [
     {id: 1, name: "Dashboard", icon: <DashboardIcon />, link: "/backoffice/dashboard"},
     {id: 2, name: "Order", icon: <ListAltIcon />, link: "/backoffice/order"},
-    {id: 3, name: "Category", icon: <CategoryIcon />, link: "/backoffice/product-category"},
+    {id: 3, name: "Product Category", icon: <CategoryIcon />, link: "/backoffice/product-category"},
     {id: 4, name: "Product", icon: <InventoryIcon />, link: "/backoffice/product"},
     {id: 5, name: "Customer", icon: <PersonOutlineIcon />, link: "/backoffice/customer"},
     {id: 6, name: "Mail", icon: <EmailIcon />, link: "/backoffice/mail"},
@@ -54,7 +54,7 @@ const SideBar = () => {
         style={{
           textDecoration: "none",
           cursor: "pointer",
-          color:"black"
+          color: "black",
         }}>
         <List>
           <ListItem disablePadding>

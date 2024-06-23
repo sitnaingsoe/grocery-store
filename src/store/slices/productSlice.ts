@@ -11,8 +11,8 @@ const initialState: CounterState = {
   value: 0,
 };
 
-export const counterSlice = createSlice({
-  name: "counter",
+export const productSlice = createSlice({
+  name: "product",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -29,6 +29,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const {increment, decrement, incrementByAmount} = counterSlice.actions;
+export const {increment, decrement, incrementByAmount} = productSlice.actions;
 
-export default counterSlice.reducer;
+export default productSlice.reducer;

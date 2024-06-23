@@ -11,6 +11,7 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  isArchive Boolean @default(false)
   posts Post[]
 }
 
@@ -21,4 +22,39 @@ model Post {
   published Boolean @default(false)
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int
+}
+
+model ProductCategory {
+  id Int @id @default(autoincrement())
+  name String 
+  isAvailable Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product Product?
+  company Company @relation(fields: [companyId], references: [id])
+  companyId Int @unique
+
+}
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price String
+  isAvailable Boolean
+  isArchived Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id])
+  productCategoryId Int @unique
+  company Company @relation(fields: [companyId], references: [id])
+  companyId Int @unique
+}
+
+model Company {
+  id Int @id @default(autoincrement())
+  name String 
+  email String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product Product?
+  prodctCategory ProductCategory?
 }
