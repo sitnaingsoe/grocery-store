@@ -1,3 +1,7 @@
+export interface BaseOptions {
+  onSuccess?: (data?: any) => void;
+  onError?: (error?: any) => void;
+}
 export interface CreateUserPayload {
   id?: number;
   name: string;

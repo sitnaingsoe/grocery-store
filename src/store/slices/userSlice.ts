@@ -16,12 +16,6 @@ interface UserSlice {
 const initialState: UserSlice = {
   users: [],
 };
-export const fetchData = createAsyncThunk("user/fetchData", async (payload, thunkAPI) => {
-  const response = await fetch(`${config.backofficeApiBaseUrl}/app`);
-  const dataFromServer = await response.json();
-  const {users} = dataFromServer;
-  thunkAPI.dispatch(setUser(users));
-});
 
 export const createUser = createAsyncThunk(
   "users/createUser",

@@ -18,32 +18,22 @@ import {ProductCategory} from "@prisma/client";
 const ProductCategoryPage = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const [showProductCaategory, setShowProductCategory] = useState<ProductCategory[]>([]);
   const productCategory = useAppSelector((state) => state.productCategory.productCategory);
   const [newProductCategory, setNewProductCategory] = useState<ProductCategoryPayload>({
     name: "",
     isAvailable: true,
   });
-  useEffect(() => {
-    if (productCategory.length !== 0) {
-      setShowProductCategory(productCategory);
-    }
-  }, [productCategory]);
-
-  useEffect(() => {
-    dispatch(getProductCategory());
-  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  if (productCategory.length === 0) {
+  if (!productCategory) {
     return null; // Return null to avoid rendering the component if there's no data
   }
 
   return (
-    <Box sx={{display: "flex", flexDirection: "column"}}>
+    <Box sx={{display: "flex", flexDirection: "column",p:5}}>
       <Box sx={{display: "flex", justifyContent: "flex-end"}}>
         <Button variant="contained" onClick={handleClickOpen}>
           Open alert dialog
@@ -57,9 +47,12 @@ const ProductCategoryPage = () => {
         setNewProductCategory={setNewProductCategory}
       />
 
-      <Box>
-        {showProductCaategory.map((item) => (
-          <div key={item.id}>{item.name}</div> // Assuming each item has a unique 'id'
+      <Box sx={{display: "flex", flexWrap: "wrap",pl:10}}>
+        {productCategory.map((item) => (
+          <Box key={item.id}>
+            {" "}
+            <Card name={item.name} />
+          </Box> // Assuming each item has a unique 'id'
         ))}
       </Box>
     </Box>

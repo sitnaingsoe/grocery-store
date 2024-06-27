@@ -1,9 +1,10 @@
 import TopBar from "@/components/TopBar";
 import {Box, Button, Typography} from "@mui/material";
 import {signIn} from "next-auth/react";
-import React from "react";
+import React, {useEffect} from "react";
 
-const signin = () => {
+const SignIn = () => {
+
   return (
     <Box sx={{height: "100vh"}}>
       <TopBar />
@@ -29,50 +30,10 @@ const signin = () => {
             }}>
             Sign in with Google
           </Button>
-          <Button
-            sx={{mb: 3}}
-            variant="contained"
-            onClick={() => {
-              signIn("google", {callbackUrl: "/backoffice"});
-            }}>
-            Sign in with Google
-          </Button>
-          <Button
-            sx={{mb: 3}}
-            variant="contained"
-            onClick={() => {
-              signIn("google", {callbackUrl: "/backoffice"});
-            }}>
-            Sign in with Google
-          </Button>
-          <Button
-            sx={{mb: 3}}
-            variant="contained"
-            onClick={() => {
-              signIn("google", {callbackUrl: "/backoffice"});
-            }}>
-            Sign in with Google
-          </Button>
-          <Button
-            sx={{mb: 3}}
-            variant="contained"
-            onClick={() => {
-              signIn("google", {callbackUrl: "/backoffice"});
-            }}>
-            Sign in with Google
-          </Button>
-          <Button
-            sx={{mb: 3}}
-            variant="contained"
-            onClick={() => {
-              signIn("google", {callbackUrl: "/backoffice"});
-            }}>
-            Sign in with
-          </Button>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default signin;
+export default SignIn;

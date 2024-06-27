@@ -2,27 +2,30 @@ import React, {ReactNode, useEffect} from "react";
 import TopBar from "./TopBar";
 import Box from "@mui/material/Box";
 import SideBar from "./SideBar";
-import {useAppDispatch} from "@/store/hook";
-import { fetchData } from "@/store/slices/userSlice";
+import {useAppDispatch, useAppSelector} from "@/store/hook";
+import {fetchData} from "@/store/slices/appSlice";
 
 interface Props {
   children: ReactNode;
 }
 
 const BackofficeLayout = ({children}: Props) => {
+  const {init} = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchData());
+    if(!init){
+      dispatch(fetchData());
+    }
   }, []);
 
   return (
-    <Box sx={{bgcolor: "#E8E1D9",width:"100%",height:"100%"}}>
+    <Box sx={{bgcolor: "#E8E1D9", width: "100%", height: "100%"}}>
       <TopBar />
       <Box sx={{display: "flex"}}>
-        <Box sx={{width: 280}}>
+        <Box sx={{width:"20%"}}>
           <SideBar />
         </Box>
-        <Box>{children}</Box>
+        <Box sx={{width:"100%"}}>{children}</Box>
       </Box>
     </Box>
   );
