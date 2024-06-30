@@ -1,20 +1,20 @@
 import {config} from "@/config";
 import {CreateUserPayload, DeleteUserPayload} from "@/type/user";
+import {User} from "@prisma/client";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-export interface User {
-  id?: number;
-  email: string;
-  name: string;
-}
 // Define a type for the slice state
 interface UserSlice {
   users: User[];
+  isLoading: boolean;
+  error: null | String;
 }
 
 // Define the initial state using that type
 const initialState: UserSlice = {
   users: [],
+  isLoading: false,
+  error: null,
 };
 
 export const createUser = createAsyncThunk(
