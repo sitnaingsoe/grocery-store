@@ -12,28 +12,29 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import {getProductCategory} from "@/store/slices/productCategorySlice";
 import {ProductCategory} from "@prisma/client";
 
 const ProductCategoryPage = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const productCategory = useAppSelector((state) => state.productCategory.productCategory);
+  const {company} = useAppSelector((state) => state.company);
   const [newProductCategory, setNewProductCategory] = useState<ProductCategoryPayload>({
     name: "",
     isAvailable: true,
+    companyId: undefined,
   });
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  if (!productCategory) {
+  if (!productCategory || !company) {
     return null; // Return null to avoid rendering the component if there's no data
   }
 
   return (
-    <Box sx={{display: "flex", flexDirection: "column",p:5}}>
+    <Box sx={{display: "flex", flexDirection: "column", p: 5}}>
       <Box sx={{display: "flex", justifyContent: "flex-end"}}>
         <Button variant="contained" onClick={handleClickOpen}>
           Open alert dialog
@@ -45,13 +46,13 @@ const ProductCategoryPage = () => {
         setOpen={setOpen}
         newProductCategory={newProductCategory}
         setNewProductCategory={setNewProductCategory}
+        companyId={company.id}
       />
 
-      <Box sx={{display: "flex", flexWrap: "wrap",pl:10}}>
+      <Box sx={{display: "flex", flexWrap: "wrap", pl: 10}}>
         {productCategory.map((item) => (
           <Box key={item.id}>
-            {" "}
-            <Card name={item.name} />
+            <Card name={item.name} href={`/backoffice/product-category/${item.id}`} />
           </Box> // Assuming each item has a unique 'id'
         ))}
       </Box>

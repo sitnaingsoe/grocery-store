@@ -48,13 +48,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const companyId = newCompany.id;
             const defaultProductCategory = await prisma.productCategory.create({
-              data: {name: "default name", isAvailable: true, companyId},
+              data: {name: "default ProductCategory", isAvailable: true, companyId},
             });
 
             const productCategoryId = defaultProductCategory.id;
             const defaultProduct = await prisma.product.create({
               data: {
-                name: "default name",
+                name: "default Product",
                 price: 0,
                 isAvailable: true,
                 isArchived: false,

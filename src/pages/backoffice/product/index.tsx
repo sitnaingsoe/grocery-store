@@ -19,11 +19,6 @@ const ProductPage = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const product = useAppSelector((state) => state.product.product);
-  const [newProductCategory, setNewProductCategory] = useState<ProductCategoryPayload>({
-    name: "",
-    isAvailable: true,
-  });
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -44,7 +39,7 @@ const ProductPage = () => {
         {product.map((item) => (
           <Box key={item.id}>
             {" "}
-            <Card name={item.name} />
+            <Card name={item.name} href="" />
           </Box> // Assuming each item has a unique 'id'
         ))}
       </Box>

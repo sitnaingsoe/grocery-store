@@ -5,7 +5,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: CompanyPayload = {
-  company: [],
+  company: null,
   isLoading: false,
   error: null,
 };
@@ -14,7 +14,7 @@ export const companySlice = createSlice({
   name: "company",
   initialState,
   reducers: {
-    setCompany: (state, actions: PayloadAction<Company[]>) => {
+    setCompany: (state, actions: PayloadAction<Company>) => {
       state.company = actions.payload;
     },
   },

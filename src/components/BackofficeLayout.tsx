@@ -13,19 +13,19 @@ const BackofficeLayout = ({children}: Props) => {
   const {init} = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if(!init){
+    if (!init) {
       dispatch(fetchData());
     }
-  }, []);
+  }, [init]);
 
   return (
-    <Box sx={{bgcolor: "#E8E1D9", width: "100%", height: "100%"}}>
+    <Box sx={{bgcolor: "#EEEEEE", width: "100%", height: "100%"}}>
       <TopBar />
       <Box sx={{display: "flex"}}>
-        <Box sx={{width:"20%"}}>
+        <Box sx={{width: "20%"}}>
           <SideBar />
         </Box>
-        <Box sx={{width:"100%"}}>{children}</Box>
+        <Box sx={{width: "100%"}}>{children}</Box>
       </Box>
     </Box>
   );
