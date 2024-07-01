@@ -12,17 +12,26 @@ import {
   TextField,
 } from "@mui/material";
 import {ProductCategoryPayload} from "@/type/product-category";
-import {useAppDispatch} from "@/store/hook";
+import {useAppDispatch, useAppSelector} from "@/store/hook";
 import {addProductCategory, createProductCategory} from "@/store/slices/productCategorySlice";
+import {NetworkWifi1BarSharp} from "@mui/icons-material";
 
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setNewProductCategory: React.Dispatch<React.SetStateAction<ProductCategoryPayload>>;
   newProductCategory: ProductCategoryPayload;
+  companyId: number;
 }
 
-const NewProductCategory = ({open, setOpen, newProductCategory, setNewProductCategory}: Props) => {
+const NewProductCategory = ({
+  open,
+  setOpen,
+  newProductCategory,
+  setNewProductCategory,
+  companyId,
+}: Props) => {
+  const {company} = useAppSelector((state) => state.company);
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setOpen(false);
@@ -30,7 +39,7 @@ const NewProductCategory = ({open, setOpen, newProductCategory, setNewProductCat
   const handleCreate = () => {
     const isValid = newProductCategory.name && newProductCategory.isAvailable != undefined;
     if (!isValid) return null;
-    dispatch(createProductCategory(newProductCategory));
+    dispatch(createProductCategory({...newProductCategory, companyId}));
     setOpen(false);
   };
   return (

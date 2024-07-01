@@ -1,12 +1,16 @@
 import {AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import {signOut} from "next-auth/react";
+import {useAppSelector} from "@/store/hook";
 
 const TopBar = () => {
+  const {company} = useAppSelector((state) => state.company);
+
+  if (!company) return null;
+
   return (
     <Box sx={{flexGrow: 1}}>
-      <AppBar position="static" sx={{bgcolor: "#125C13"}}>
+      <AppBar position="static" sx={{bgcolor: "#615EFC",height:85,p:1}}>
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
             <Avatar sx={{bgcolor: "#9DB2BF"}}>GS</Avatar>
@@ -14,6 +18,7 @@ const TopBar = () => {
           <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
             Grocery Store
           </Typography>
+          <Typography sx={{flexGrow: 1, fontSize: 25}}>{company.name}</Typography>
           <Button color="inherit" onClick={() => signOut()}>
             Logout
           </Button>

@@ -28,7 +28,7 @@ const SideBar = () => {
     {id: 7, name: "Send", icon: <SendIcon />, link: "/backoffice/sent-mail"},
   ];
   return (
-    <Box sx={{bgcolor: "#F4A442", height: "100vh"}}>
+    <Box sx={{bgcolor: "#D1D8C5", height: "100vh"}}>
       <List>
         {slideBarItems.map((item) => (
           <Link
