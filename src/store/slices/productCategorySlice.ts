@@ -24,16 +24,27 @@ const initialState: ProductCategorySlice = {
 export const createProductCategory = createAsyncThunk(
   "productCategory/createProductCategory",
   async (payload: ProductCategoryPayload, thunkApi) => {
-    const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    const data = await response.json();
-    const {productCategory} = data;
-    thunkApi.dispatch(addProductCategory(productCategory));
+    const {onError, onSuccess} = payload;
+    try {
+      const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      const {productCategory} = data;
+      {
+        onSuccess && onSuccess();
+      }
+      thunkApi.dispatch(addProductCategory(productCategory));
+    } catch (error) {
+      {
+        onError && onError();
+        console.log(error);
+      }
+    }
   },
 );
 export const updatedProductCategory = createAsyncThunk(
@@ -48,7 +59,7 @@ export const updatedProductCategory = createAsyncThunk(
     });
     const dataFromServer = await response.json();
     const {updatedProductCategory} = dataFromServer;
-    console.log(updatedProductCategory);
+    updatedProductCategory;
     thunkApi.dispatch(repalceProductCategory(updatedProductCategory));
   },
 );
@@ -57,7 +68,6 @@ export const deleteProductCategory = createAsyncThunk(
   "productCategory/deleteProductCategory",
   async (payload: RemoveProductCategory, thunkapi) => {
     const {id} = payload;
-    console.log(id);
     const response = await fetch(`${config.backofficeApiBaseUrl}/product-category?id=${id}`, {
       method: "DELETE",
     });

@@ -4,6 +4,7 @@ export interface ProductCategoryPayload extends BaseOptions {
   name: string;
   isAvailable: boolean;
   companyId: number | undefined;
+  isArchived: boolean;
 }
 
 export interface UpdateProductCategory extends BaseOptions {
@@ -12,6 +13,6 @@ export interface UpdateProductCategory extends BaseOptions {
   name: string;
   isAvailable: boolean;
 }
-export interface RemoveProductCategory extends BaseOptions{
-  id:number
+export interface RemoveProductCategory extends BaseOptions {
+  id: number;
 }

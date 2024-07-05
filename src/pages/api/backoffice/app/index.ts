@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const company = await prisma.company.findFirst({where: {userId: userFromDb.id}});
             if (company) {
               const productCategories = await prisma.productCategory.findMany({
-                where: {companyId: company.id},
+                where: {companyId: company.id, isArchived: false},
               });
               const products = await prisma.product.findMany({
                 where: {productCategoryId: {in: productCategories.map((pc) => pc.id)}},
@@ -48,7 +48,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const companyId = newCompany.id;
             const defaultProductCategory = await prisma.productCategory.create({
-              data: {name: "default ProductCategory", isAvailable: true, companyId},
+              data: {
+                name: "default ProductCategory",
+                isAvailable: true,
+                companyId,
+                isArchived: false,
+              },
             });
 
             const productCategoryId = defaultProductCategory.id;

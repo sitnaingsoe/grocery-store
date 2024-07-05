@@ -3,16 +3,8 @@ import Card from "@/components/Card";
 import NewProductCategory from "@/components/NewProductCategory";
 import {useAppDispatch, useAppSelector} from "@/store/hook";
 import {ProductCategoryPayload} from "@/type/product-category";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-import {ProductCategory} from "@prisma/client";
+import {Box, Button} from "@mui/material";
+import SnackBar from "@/components/SnackBar";
 
 const ProductCategoryPage = () => {
   const [open, setOpen] = useState(false);
@@ -23,6 +15,7 @@ const ProductCategoryPage = () => {
     name: "",
     isAvailable: true,
     companyId: undefined,
+    isArchived: false,
   });
 
   const handleClickOpen = () => {
@@ -40,7 +33,7 @@ const ProductCategoryPage = () => {
           Open alert dialog
         </Button>
       </Box>
-
+      <SnackBar />
       <NewProductCategory
         open={open}
         setOpen={setOpen}

@@ -4,6 +4,7 @@ import productReducer from "./slices/productSlice";
 import productCategoryReducer from "./slices/productCategorySlice";
 import appReducer from "./slices/appSlice";
 import companyReducer from "./slices/companySlice";
+import appSnackBarSlice from "./slices/appSnackBarSlice";
 // ...
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     productCategory: productCategoryReducer,
     app: appReducer,
     company: companyReducer,
+    appSnackBar: appSnackBarSlice,
   },
 });
 

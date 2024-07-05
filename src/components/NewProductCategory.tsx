@@ -15,6 +15,7 @@ import {ProductCategoryPayload} from "@/type/product-category";
 import {useAppDispatch, useAppSelector} from "@/store/hook";
 import {addProductCategory, createProductCategory} from "@/store/slices/productCategorySlice";
 import {NetworkWifi1BarSharp} from "@mui/icons-material";
+import {showSnackbar} from "@/store/slices/appSnackBarSlice";
 
 interface Props {
   open: boolean;
@@ -39,9 +40,24 @@ const NewProductCategory = ({
   const handleCreate = () => {
     const isValid = newProductCategory.name && newProductCategory.isAvailable != undefined;
     if (!isValid) return null;
-    dispatch(createProductCategory({...newProductCategory, companyId}));
+    dispatch(
+      createProductCategory({
+        ...newProductCategory,
+        companyId,
+        onSuccess: () => {
+          dispatch(
+            showSnackbar({
+              type: "success",
+              message: "Product Category  created successfully",
+            }),
+          );
+          setOpen(false);
+        },
+      }),
+    );
     setOpen(false);
   };
+
   return (
     <Box>
       <Dialog open={open} onClose={handleClose}>

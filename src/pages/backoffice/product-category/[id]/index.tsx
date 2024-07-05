@@ -1,3 +1,4 @@
+import DeleteDialogBox from "@/components/DeleteDialogBox";
 import {useAppDispatch, useAppSelector} from "@/store/hook";
 import {deleteProductCategory, updatedProductCategory} from "@/store/slices/productCategorySlice";
 import {UpdateProductCategory} from "@/type/product-category";
@@ -17,6 +18,15 @@ const ProductCategoryDeatil = () => {
     companyId: undefined,
     isAvailable: false,
   });
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     if (productCategory) {
       setUpdateProductCategory({
@@ -38,9 +48,8 @@ const ProductCategoryDeatil = () => {
     dispatch(updatedProductCategory(updateProductCategory));
     router.push("/backoffice/product-category");
   };
-
-  const handelDelete = (id: number) => {
-    dispatch(deleteProductCategory({id}));
+  const handelDelete = () => {
+    dispatch(deleteProductCategory({id: productCategoryId}));
     router.push("/backoffice/product-category");
   };
 
@@ -51,7 +60,7 @@ const ProductCategoryDeatil = () => {
         <Button
           variant="contained"
           sx={{bgcolor: "red", width: "offsetfix"}}
-          onClick={() => handelDelete(productCategoryId)}>
+          onClick={handleClickOpen}>
           Delete
         </Button>
       </Box>
@@ -82,6 +91,7 @@ const ProductCategoryDeatil = () => {
           Update
         </Button>
       </Box>
+      <DeleteDialogBox open={open} setOpen={setOpen} handelDelete={handelDelete} />
     </>
   );
 };
