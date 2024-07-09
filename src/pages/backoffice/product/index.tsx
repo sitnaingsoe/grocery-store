@@ -12,8 +12,6 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import {getProductCategory} from "@/store/slices/productCategorySlice";
-import {ProductCategory} from "@prisma/client";
 
 const ProductPage = () => {
   const [open, setOpen] = useState(false);

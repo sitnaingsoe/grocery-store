@@ -67,11 +67,21 @@ export const updatedProductCategory = createAsyncThunk(
 export const deleteProductCategory = createAsyncThunk(
   "productCategory/deleteProductCategory",
   async (payload: RemoveProductCategory, thunkapi) => {
-    const {id} = payload;
-    const response = await fetch(`${config.backofficeApiBaseUrl}/product-category?id=${id}`, {
-      method: "DELETE",
-    });
-    thunkapi.dispatch(removeProductCategory(id));
+    const {id, onError, onSuccess} = payload;
+    try {
+      const response = await fetch(`${config.backofficeApiBaseUrl}/product-category?id=${id}`, {
+        method: "DELETE",
+      });
+      thunkapi.dispatch(removeProductCategory(id));
+      {
+        onSuccess && onSuccess();
+      }
+    } catch (error) {
+      {
+        onError && onError;
+      }
+      console.log("Error occur ", error);
+    }
   },
 );
 

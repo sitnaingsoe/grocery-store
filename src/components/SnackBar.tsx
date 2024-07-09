@@ -28,7 +28,7 @@ const AppSnackbar = () => {
         variant="filled"
         sx={{
           width: "100%",
-          bgcolor: type === "error" ? "#EE4266" : "#1B9C85",
+          bgcolor: type === "error" ? "#EE4266" : "#0F67B1",
           color: "#E8F6EF",
         }}>
         {message}
