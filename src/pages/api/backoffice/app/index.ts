@@ -22,15 +22,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               const productCategories = await prisma.productCategory.findMany({
                 where: {companyId: company.id, isArchived: false},
               });
-              const products = await prisma.product.findMany({
-                where: {productCategoryId: {in: productCategories.map((pc) => pc.id)}},
+
+              const productCategoriesIds = productCategories.map((item) => item.id);
+              const productCategoryProducts = await prisma.productCategoryProduct.findMany({
+                where: {productCategoryId: {in: productCategoriesIds}},
               });
+              const productIds = productCategoryProducts.map((item) => item.productId);
+
+              const products = await prisma.product.findMany({
+                where: {id: {in: productIds}, isArchived: false},
+              });
+
               return res.status(200).json({
                 message: "User already exists in the database",
                 company,
                 productCategories,
                 products,
                 user: userFromDb,
+                productCategoryProducts,
               });
             }
           } else {
@@ -61,9 +70,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               data: {
                 name: "default Product",
                 price: 0,
-                isAvailable: true,
                 isArchived: false,
-                productCategoryId,
+              },
+            });
+            const defaultProductCategoryProduct = await prisma.productCategoryProduct.create({
+              data: {
+                productId: defaultProduct.id,
+                productCategoryId: productCategoryId,
               },
             });
 
@@ -72,6 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               user: newUser,
               products: [defaultProduct],
               productCategories: [defaultProductCategory],
+              productCategoryProducts: [defaultProductCategoryProduct],
             });
           }
         } else {

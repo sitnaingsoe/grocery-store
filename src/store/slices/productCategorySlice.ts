@@ -42,7 +42,6 @@ export const createProductCategory = createAsyncThunk(
     } catch (error) {
       {
         onError && onError();
-        console.log(error);
       }
     }
   },
@@ -50,17 +49,27 @@ export const createProductCategory = createAsyncThunk(
 export const updatedProductCategory = createAsyncThunk(
   "productCategory/updateProductCategory",
   async (payload: UpdateProductCategory, thunkApi) => {
-    const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    const dataFromServer = await response.json();
-    const {updatedProductCategory} = dataFromServer;
-    updatedProductCategory;
-    thunkApi.dispatch(repalceProductCategory(updatedProductCategory));
+    const {onError, onSuccess} = payload;
+    try {
+      const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      const dataFromServer = await response.json();
+      const {updatedProductCategory} = dataFromServer;
+      updatedProductCategory;
+      thunkApi.dispatch(repalceProductCategory(updatedProductCategory));
+      {
+        onSuccess && onSuccess();
+      }
+    } catch (error) {
+      {
+        onError && onError();
+      }
+    }
   },
 );
 
@@ -80,7 +89,7 @@ export const deleteProductCategory = createAsyncThunk(
       {
         onError && onError;
       }
-      console.log("Error occur ", error);
+      alert(error);
     }
   },
 );

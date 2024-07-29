@@ -5,6 +5,7 @@ import {setUser} from "./userSlice";
 import {setProductCategory} from "./productCategorySlice";
 import {setProduct} from "./productSlice";
 import {setCompany} from "./companySlice";
+import {setProductCategoryProduct} from "./productCatagoryProductSlice";
 
 const initialState: AppSlice = {
   init: false,
@@ -16,13 +17,15 @@ export const fetchData = createAsyncThunk("user/fetchData", async (payload, thun
   thunkAPI.dispatch(setIsLoading(true));
   const response = await fetch(`${config.backofficeApiBaseUrl}/app`);
   const dataFromServer = await response.json();
-  const {company, products, productCategories, user} = dataFromServer;
+  const {company, products, productCategories, user, productCategoryProducts} = dataFromServer;
+
   thunkAPI.dispatch(setInit(true));
   thunkAPI.dispatch(setIsLoading(false));
   thunkAPI.dispatch(setUser(user));
   thunkAPI.dispatch(setProduct(products));
   thunkAPI.dispatch(setProductCategory(productCategories));
   thunkAPI.dispatch(setCompany(company));
+  thunkAPI.dispatch(setProductCategoryProduct(productCategoryProducts));
 });
 
 export const appSlice = createSlice({

@@ -22,7 +22,6 @@ const AppSnackbar = () => {
         onClose={() => {
           dispatch(hideSnackbar());
           //dispatch(undoMenuCategory());
-          console.log("undo menucategory id");
         }}
         severity={type}
         variant="filled"
