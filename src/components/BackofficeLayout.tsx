@@ -19,13 +19,13 @@ const BackofficeLayout = ({children}: Props) => {
   }, [init]);
 
   return (
-    <Box sx={{bgcolor: "#EEEEEE", width: "100%", height: "100%"}}>
+    <Box sx={{bgcolor: "#EEEEEE", width: "100%",height:"100%"}}>
       <TopBar />
       <Box sx={{display: "flex"}}>
         <Box sx={{width: "20%"}}>
           <SideBar />
         </Box>
-        <Box sx={{width: "100%"}}>{children}</Box>
+        <Box sx={{width: "100%", height:"auto"}}>{children}</Box>
       </Box>
     </Box>
   );

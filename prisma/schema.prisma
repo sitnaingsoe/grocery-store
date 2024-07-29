@@ -8,44 +8,50 @@ datasource db {
 }
 
 model ProductCategory {
-  id          Int      @id @default(autoincrement())
-  name        String 
-  isAvailable Boolean
-  isArchived  Boolean
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  companyId   Int
-  company     Company  @relation(fields: [companyId], references: [id])
-  products    Product[]
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  isAvailable            Boolean
+  isArchived             Boolean
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  companyId              Int
+  company                Company                  @relation(fields: [companyId], references: [id])
+  ProductCategoryProduct ProductCategoryProduct[]
 }
 
 model Product {
-  id                Int                @id @default(autoincrement())
-  name              String
-  price             Int
-  isAvailable       Boolean          @default(false)
-  isArchived        Boolean
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt  
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  price                  Int
+  isArchived             Boolean
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  ProductCategoryProduct ProductCategoryProduct[]
+}
+
+model ProductCategoryProduct {
+  id                Int             @id @default(autoincrement())
   productCategoryId Int
-  productCategory   ProductCategory    @relation(fields: [productCategoryId], references: [id])
+  productId         Int
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id])
+  product           Product         @relation(fields: [productId], references: [id])
 }
 
 model Company {
-  id        Int      @id @default(autoincrement())
-  name      String 
-  email     String 
-  city      String 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int               @id @default(autoincrement())
+  name       String
+  email      String
+  city       String
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
   categories ProductCategory[]
-  user       User    @relation(fields: [userId], references: [id])
-  userId     Int     @unique
+  user       User              @relation(fields: [userId], references: [id])
+  userId     Int               @unique
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  company   Company?
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  company Company?
 }

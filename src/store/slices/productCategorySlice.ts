@@ -42,7 +42,6 @@ export const createProductCategory = createAsyncThunk(
     } catch (error) {
       {
         onError && onError();
-        console.log(error);
       }
     }
   },
@@ -50,28 +49,48 @@ export const createProductCategory = createAsyncThunk(
 export const updatedProductCategory = createAsyncThunk(
   "productCategory/updateProductCategory",
   async (payload: UpdateProductCategory, thunkApi) => {
-    const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    const dataFromServer = await response.json();
-    const {updatedProductCategory} = dataFromServer;
-    updatedProductCategory;
-    thunkApi.dispatch(repalceProductCategory(updatedProductCategory));
+    const {onError, onSuccess} = payload;
+    try {
+      const response = await fetch(`${config.backofficeApiBaseUrl}/product-category`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      const dataFromServer = await response.json();
+      const {updatedProductCategory} = dataFromServer;
+      updatedProductCategory;
+      thunkApi.dispatch(repalceProductCategory(updatedProductCategory));
+      {
+        onSuccess && onSuccess();
+      }
+    } catch (error) {
+      {
+        onError && onError();
+      }
+    }
   },
 );
 
 export const deleteProductCategory = createAsyncThunk(
   "productCategory/deleteProductCategory",
   async (payload: RemoveProductCategory, thunkapi) => {
-    const {id} = payload;
-    const response = await fetch(`${config.backofficeApiBaseUrl}/product-category?id=${id}`, {
-      method: "DELETE",
-    });
-    thunkapi.dispatch(removeProductCategory(id));
+    const {id, onError, onSuccess} = payload;
+    try {
+      const response = await fetch(`${config.backofficeApiBaseUrl}/product-category?id=${id}`, {
+        method: "DELETE",
+      });
+      thunkapi.dispatch(removeProductCategory(id));
+      {
+        onSuccess && onSuccess();
+      }
+    } catch (error) {
+      {
+        onError && onError;
+      }
+      alert(error);
+    }
   },
 );
 

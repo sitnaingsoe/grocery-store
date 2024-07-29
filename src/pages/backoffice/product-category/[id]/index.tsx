@@ -1,5 +1,6 @@
 import DeleteDialogBox from "@/components/DeleteDialogBox";
 import {useAppDispatch, useAppSelector} from "@/store/hook";
+import {showSnackbar} from "@/store/slices/appSnackBarSlice";
 import {deleteProductCategory, updatedProductCategory} from "@/store/slices/productCategorySlice";
 import {UpdateProductCategory} from "@/type/product-category";
 import {Box, Button, Checkbox, FormControlLabel, TextField, Typography} from "@mui/material";
@@ -44,12 +45,36 @@ const ProductCategoryDeatil = () => {
       updateProductCategory.name &&
       updateProductCategory.isAvailable !== undefined &&
       updateProductCategory.companyId;
-    if (!isValid) return console.log("need data");
-    dispatch(updatedProductCategory(updateProductCategory));
+    if (!isValid) return null;
+    dispatch(
+      updatedProductCategory({
+        ...updateProductCategory,
+        onSuccess: () => {
+          dispatch(
+            showSnackbar({
+              type: "success",
+              message: "succesfully Updated",
+            }),
+          );
+        },
+      }),
+    );
     router.push("/backoffice/product-category");
   };
   const handelDelete = () => {
-    dispatch(deleteProductCategory({id: productCategoryId}));
+    dispatch(
+      deleteProductCategory({
+        id: productCategoryId,
+        onSuccess: () => {
+          dispatch(
+            showSnackbar({
+              type: "success",
+              message: "succesfully deleted",
+            }),
+          );
+        },
+      }),
+    );
     router.push("/backoffice/product-category");
   };
 
@@ -91,7 +116,13 @@ const ProductCategoryDeatil = () => {
           Update
         </Button>
       </Box>
-      <DeleteDialogBox open={open} setOpen={setOpen} handelDelete={handelDelete} />
+      <DeleteDialogBox
+        open={open}
+        setOpen={setOpen}
+        handelDelete={handelDelete}
+        title="Delete ProductCategory"
+        content="Are you want to delete ?"
+      />
     </>
   );
 };

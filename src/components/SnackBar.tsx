@@ -22,13 +22,12 @@ const AppSnackbar = () => {
         onClose={() => {
           dispatch(hideSnackbar());
           //dispatch(undoMenuCategory());
-          console.log("undo menucategory id");
         }}
         severity={type}
         variant="filled"
         sx={{
           width: "100%",
-          bgcolor: type === "error" ? "#EE4266" : "#1B9C85",
+          bgcolor: type === "error" ? "#EE4266" : "#0F67B1",
           color: "#E8F6EF",
         }}>
         {message}

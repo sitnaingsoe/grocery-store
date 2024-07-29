@@ -12,8 +12,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import {getProductCategory} from "@/store/slices/productCategorySlice";
-import {ProductCategory} from "@prisma/client";
+import NewProductDialogBox from "@/components/NewProductDialogBox";
+import Link from "next/link";
 
 const ProductPage = () => {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,7 @@ const ProductPage = () => {
     setOpen(true);
   };
 
-  if (!product) {
+  if (!product.length) {
     return null; // Return null to avoid rendering the component if there's no data
   }
 
@@ -39,10 +39,11 @@ const ProductPage = () => {
         {product.map((item) => (
           <Box key={item.id}>
             {" "}
-            <Card name={item.name} href="" />
+            <Card name={item.name} href={`/backoffice/product/${item.id}`} />
           </Box> // Assuming each item has a unique 'id'
         ))}
       </Box>
+      <NewProductDialogBox open={open} setOpen={setOpen} />
     </Box>
   );
 };
