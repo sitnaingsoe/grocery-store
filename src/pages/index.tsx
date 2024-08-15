@@ -16,7 +16,9 @@ export default function Home() {
       <Link href={"http://localhost:3000/backoffice"}>
         <Box sx={{mb: 1, fontSize: 30}}>Backoffice Page </Box>
       </Link>
-      <Box sx={{mb: 2, fontSize: 30}}>Home Page </Box>
+      <Link href={"http://localhost:3000/order"}>
+        <Box sx={{mb: 2, fontSize: 30}}>Order Page </Box>
+      </Link>
     </Box>
   );
 }

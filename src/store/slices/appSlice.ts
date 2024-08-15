@@ -6,6 +6,7 @@ import {setProductCategory} from "./productCategorySlice";
 import {setProduct} from "./productSlice";
 import {setCompany} from "./companySlice";
 import {setProductCategoryProduct} from "./productCatagoryProductSlice";
+import {AssetUploadPayload} from "@/type/asset-payload";
 
 const initialState: AppSlice = {
   init: false,
@@ -27,6 +28,22 @@ export const fetchData = createAsyncThunk("user/fetchData", async (payload, thun
   thunkAPI.dispatch(setCompany(company));
   thunkAPI.dispatch(setProductCategoryProduct(productCategoryProducts));
 });
+export const uploadAsset = createAsyncThunk(
+  "app/assetUpload",
+  async (payload: AssetUploadPayload, thunkAPI) => {
+    const {file, onSuccess} = payload;
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await fetch(`${config.backofficeApiBaseUrl}/upload`, {
+      method: "POST",
+      body: formData,
+    });
+    const dataFromServer = await response.json();
+    const {assetUrl} = dataFromServer;
+
+    onSuccess && onSuccess(assetUrl);
+  },
+);
 
 export const appSlice = createSlice({
   name: "app",

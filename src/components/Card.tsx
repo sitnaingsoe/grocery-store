@@ -1,24 +1,29 @@
 import Card from "@mui/material/Card";
-import {Box, CardContent, Typography} from "@mui/material";
+import {Box, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 import React from "react";
 import Link from "next/link";
 interface Props {
   name: string;
   href: string;
+  assetUrl: string;
 }
 
-const CardComponent = ({name, href}: Props) => {
+const CardComponent = ({name, href, assetUrl}: Props) => {
   return (
     <Link href={href} style={{textDecoration: "none", color: "#000000"}}>
-      <Box sx={{padding: 5, borderRadius: 5}}>
-        <Card sx={{minWidth: 275, width: 100, height: 200}}>
+      <Card sx={{maxWidth: 345}}>
+        <CardActionArea>
+          <CardMedia component="img" height="140" image={assetUrl} alt="green iguana" />
           <CardContent>
-            <Typography sx={{fontSize: 14}}>
+            <Typography gutterBottom variant="h5" component="div">
               {name}
-            </Typography>   
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Lizards are a widespread group of squamate reptiles, with over 6.
+            </Typography>
           </CardContent>
-        </Card>
-      </Box>
+        </CardActionArea>
+      </Card>
     </Link>
   );
 };

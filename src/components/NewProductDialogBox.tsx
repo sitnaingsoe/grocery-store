@@ -4,6 +4,7 @@ import {CreateProductPayload} from "@/type/product";
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -14,29 +15,61 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import {Product, ProductCategory} from "@prisma/client";
-import React from "react";
+import React, {useState} from "react";
+import FileDropZone from "./FileDropZone";
+import {assetUpload} from "@/utils/assetUpload";
+import {showSnackbar} from "@/store/slices/appSnackBarSlice";
+import {uploadAsset} from "@/store/slices/appSlice";
+import {useRouter} from "next/router";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NewProductDialogBox = ({open, setOpen}: Props) => {
+  const [productImage, setProductImage] = useState<File>();
   const {productCategory} = useAppSelector((state) => state.productCategory);
   const [newProduct, setProduct] = React.useState<CreateProductPayload>({
     name: "",
     price: 0,
     productCategoryIds: [],
+    assetUrl: "",
   });
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setOpen(false);
   };
   const handelCreate = () => {
-    dispatch(createProduct(newProduct));
+    const isValid = newProduct.name && newProduct.price && newProduct.productCategoryIds.length;
+    if (!isValid) return console.log("Uncomplete Data");
+    if (productImage) {
+      dispatch(
+        uploadAsset({
+          file: productImage,
+          onSuccess: (assetUrl) => {
+            newProduct.assetUrl = assetUrl;
+            dispatch(
+              createProduct({
+                ...newProduct,
+                onSuccess: () => {
+                  dispatch(
+                    showSnackbar({
+                      type: "success",
+                      message: "Product created successfully",
+                    }),
+                  );
+                },
+              }),
+            );
+          },
+        }),
+      );
+      router.push("/backoffice/product");
+    }
   };
   return (
     <Box>
@@ -82,6 +115,16 @@ const NewProductDialogBox = ({open, setOpen}: Props) => {
                 ))}
               </Select>
             </FormControl>
+            <Box>
+              <FileDropZone onDrop={(files) => setProductImage(files[0])} />
+              {productImage && (
+                <Chip
+                  sx={{mt: 2}}
+                  label={productImage.name}
+                  onDelete={() => setProductImage(undefined)}
+                />
+              )}
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>

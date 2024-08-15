@@ -63,7 +63,19 @@ const ProductDetail = () => {
     router.push("/backoffice/product");
   };
   const handelDelete = () => {
-    dispatch(deleteProduct({productId}));
+    dispatch(
+      deleteProduct({
+        productId,
+        onSuccess: () => {
+          dispatch(
+            showSnackbar({
+              type: "success",
+              message: "succesfully Deleted",
+            }),
+          );
+        },
+      }),
+    );
     router.push("/backoffice/product");
   };
 

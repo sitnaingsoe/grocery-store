@@ -23,6 +23,7 @@ model Product {
   id                     Int                      @id @default(autoincrement())
   name                   String
   price                  Int
+  assetUrl               String
   isArchived             Boolean
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt

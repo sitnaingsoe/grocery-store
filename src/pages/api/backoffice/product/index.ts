@@ -9,10 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (method === "GET") {
     return res.status(200).send("Ok");
   } else if (method === "POST") {
-    const {name, price, productCategoryIds} = req.body;
-    const isValid = name && price && productCategoryIds;
+    const {name, price, productCategoryIds, assetUrl} = req.body;
+    const isValid = name && price && productCategoryIds && assetUrl;
     if (!isValid) res.status(400).send("Unauthorized");
-    const product = await prisma.product.create({data: {name, price, isArchived: false}});
+    const product = await prisma.product.create({data: {name, price, isArchived: false, assetUrl  }});
     const productCategoryProduct = await prisma.$transaction(
       productCategoryIds.map((itemId: number) =>
         prisma.productCategoryProduct.create({

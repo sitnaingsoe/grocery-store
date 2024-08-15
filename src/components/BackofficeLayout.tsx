@@ -22,7 +22,7 @@ const BackofficeLayout = ({children}: Props) => {
     <Box sx={{bgcolor: "#EEEEEE", width: "100%",height:"100%"}}>
       <TopBar />
       <Box sx={{display: "flex"}}>
-        <Box sx={{width: "20%"}}>
+        <Box sx={{width: "18%"}}>
           <SideBar />
         </Box>
         <Box sx={{width: "100%", height:"auto"}}>{children}</Box>

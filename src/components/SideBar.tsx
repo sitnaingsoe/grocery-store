@@ -25,7 +25,6 @@ const SideBar = () => {
     {id: 4, name: "Product", icon: <InventoryIcon />, link: "/backoffice/product"},
     {id: 5, name: "Customer", icon: <PersonOutlineIcon />, link: "/backoffice/customer"},
     {id: 6, name: "Mail", icon: <EmailIcon />, link: "/backoffice/mail"},
-    {id: 7, name: "Send", icon: <SendIcon />, link: "/backoffice/sent-mail"},
   ];
   return (
     <Box sx={{bgcolor: "#D1D8C5", height: "100vh"}}>

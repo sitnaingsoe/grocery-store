@@ -10,6 +10,7 @@ export interface CreateProductPayload extends BaseOptions {
   name: string | "";
   price: number | 0;
   productCategoryIds: number[];
+  assetUrl: string | "";
 }
 export interface UpdateProductPayload extends BaseOptions {
   id?: number;
