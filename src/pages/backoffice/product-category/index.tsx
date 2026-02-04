@@ -45,7 +45,7 @@ const ProductCategoryPage = () => {
       <Box sx={{display: "flex", flexWrap: "wrap", pl: 10}}>
         {productCategory.map((item) => (
           <Box key={item.id}>
-            <Card name={item.name} href={`/backoffice/product-category/${item.id}`} />
+            <Card name={item.name} href={`/backoffice/product-category/${item.id}`} assetUrl =''/>
           </Box> // Assuming each item has a unique 'id'
         ))}
       </Box>

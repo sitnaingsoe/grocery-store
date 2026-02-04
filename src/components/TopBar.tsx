@@ -16,7 +16,7 @@ const TopBar = () => {
       <AppBar position="static" sx={{bgcolor: "#615EFC", height: 85, p: 1}}>
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
-            <Avatar sx={{bgcolor: "#9DB2BF"}}>GS</Avatar>
+            <Avatar sx={{bgcolor: "#9DB2BF"}}>SNS</Avatar>
           </IconButton>
           <Typography variant="h4" component="div" sx={{flexGrow: 1, fontStyle: "oblique"}}>
             {company.name}
