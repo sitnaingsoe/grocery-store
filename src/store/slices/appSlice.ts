@@ -1,12 +1,11 @@
 import {config} from "@/config";
-import {AppSlice} from "@/type/app";
+import {AppSlice, uploadAssetPayload} from "@/type/app";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setUser} from "./userSlice";
 import {setProductCategory} from "./productCategorySlice";
 import {setProduct} from "./productSlice";
 import {setCompany} from "./companySlice";
 import {setProductCategoryProduct} from "./productCatagoryProductSlice";
-import {AssetUploadPayload} from "@/type/asset-payload";
 
 const initialState: AppSlice = {
   init: false,
@@ -28,22 +27,46 @@ export const fetchData = createAsyncThunk("user/fetchData", async (payload, thun
   thunkAPI.dispatch(setCompany(company));
   thunkAPI.dispatch(setProductCategoryProduct(productCategoryProducts));
 });
+
 export const uploadAsset = createAsyncThunk(
-  "app/assetUpload",
-  async (payload: AssetUploadPayload, thunkAPI) => {
-    const {file, onSuccess} = payload;
-    const formData = new FormData();
-    formData.append("file", file);
-    const response = await fetch(`${config.backofficeApiBaseUrl}/upload`, {
+  "app/uploadAsset",
+  async (payload: uploadAssetPayload, thunkAPI) => {
+    const { file, onSuccess, onError } = payload;
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+    const response = await fetch(`${config.backofficeApiBaseUrl}/asset`, {
       method: "POST",
       body: formData,
     });
-    const dataFromServer = await response.json();
-    const {assetUrl} = dataFromServer;
 
-    onSuccess && onSuccess(assetUrl);
-  },
+      if (!response.ok) throw new Error("Upload failed");
+
+      const data = await response.json();
+      onSuccess && onSuccess(data.assetUrl);
+
+      return data.assetUrl;
+    } catch (error) {
+      onError && onError(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
 );
+
+const handleUpload = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  return data.assetUrl; // "/uploads/..."
+};
+
 
 export const appSlice = createSlice({
   name: "app",

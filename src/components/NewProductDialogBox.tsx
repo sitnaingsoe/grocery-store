@@ -20,7 +20,6 @@ import {
 import {Product, ProductCategory} from "@prisma/client";
 import React, {useState} from "react";
 import FileDropZone from "./FileDropZone";
-import {assetUpload} from "@/utils/assetUpload";
 import {showSnackbar} from "@/store/slices/appSnackBarSlice";
 import {uploadAsset} from "@/store/slices/appSlice";
 import {useRouter} from "next/router";
@@ -43,9 +42,9 @@ const NewProductDialogBox = ({open, setOpen}: Props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handelCreate = () => {
+  const handelCreate = async () => {
     const isValid = newProduct.name && newProduct.price && newProduct.productCategoryIds.length;
-    if (!isValid) return console.log("Uncomplete Data");
+    if (!isValid) return;
     if (productImage) {
       dispatch(
         uploadAsset({
@@ -59,7 +58,16 @@ const NewProductDialogBox = ({open, setOpen}: Props) => {
                   dispatch(
                     showSnackbar({
                       type: "success",
-                      message: "Product created successfully",
+                      message: "Menu created successfully",
+                    }),
+                  );
+                  setOpen(false);
+                },
+                onError: () => {
+                  dispatch(
+                    showSnackbar({
+                      type: "error",
+                      message: "Error occurred when creating menu",
                     }),
                   );
                 },
@@ -68,7 +76,6 @@ const NewProductDialogBox = ({open, setOpen}: Props) => {
           },
         }),
       );
-      router.push("/backoffice/product");
     }
   };
   return (

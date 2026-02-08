@@ -8,7 +8,6 @@ const TopBar = () => {
   const {company} = useAppSelector((state) => state.company);
   const pathname = usePathname();
   const name = pathname.split("/")[2];
-  console.log(name);
   if (!company) return null;
 
   return (

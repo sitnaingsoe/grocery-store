@@ -22,7 +22,7 @@ export const createProduct = createAsyncThunk(
   "product/createProduct",
   async (payload: CreateProductPayload, thunkApi) => {
     const {onError, onSuccess} = payload;
-
+    console.log(payload)
     try {
       const response = await fetch(`${config.backofficeApiBaseUrl}/product`, {
         method: "POST",
