@@ -53,19 +53,36 @@ export const uploadAsset = createAsyncThunk(
     }
   }
 );
+export interface UploadAssetPayload {
+  file: File;
+  onSuccess?: (assetUrl: string) => void;
+  onError?: (error: any) => void;
+}
 
-const handleUpload = async (file: File) => {
-  const formData = new FormData();
-  formData.append("file", file);
+export const uploadAsset2 = createAsyncThunk(
+  "app/uploadAsset",
+  async (payload: UploadAssetPayload, thunkAPI) => {
+    const { file, onSuccess, onError } = payload;
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
+       const res = await fetch(`${config.backofficeApiBaseUrl}/asset`, {
+      method: "POST",
+      body: formData,
+      });
+      if (!res.ok) throw new Error("Upload failed");
 
-  const data = await res.json();
-  return data.assetUrl; // "/uploads/..."
-};
+      const data = await res.json();
+      onSuccess && onSuccess(data.assetUrl);
+
+      return data.assetUrl;
+    } catch (error) {
+      onError && onError(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 
 export const appSlice = createSlice({

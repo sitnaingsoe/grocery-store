@@ -8,19 +8,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const method = req.method;
   if (method === "GET") {
     return res.status(200).send("Ok");
-  } else if (method === "POST") {
-    const {name, price, productCategoryIds, assetUrl} = req.body;
-    const isValid = name && price && productCategoryIds && assetUrl;
-    if (!isValid) res.status(400).send("Unauthorized");
-    const product = await prisma.product.create({data: {name, price, isArchived: false, assetUrl  }});
-    const productCategoryProduct = await prisma.$transaction(
-      productCategoryIds.map((itemId: number) =>
-        prisma.productCategoryProduct.create({
-          data: {productCategoryId: itemId, productId: product.id},
-        }),
-      ),
-    );
-    return res.status(200).json({product, productCategoryProduct});
+  } else     if (method === "POST") {
+      const { name, price, productCategoryIds, assetUrl } = req.body;
+
+      if (!name || !price || !assetUrl || !Array.isArray(productCategoryIds) || !productCategoryIds.length) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
+      const parsedPrice = Number(price);
+      const categoryIds = productCategoryIds.map(Number);
+
+      const product = await prisma.product.create({
+        data: { name, price: parsedPrice, assetUrl, isArchived: false },
+      });
+
+      const productCategoryProduct = await prisma.$transaction(
+        categoryIds.map(categoryId =>
+          prisma.productCategoryProduct.create({
+            data: { productId: product.id, productCategoryId: categoryId },
+          })
+        )
+      );
+
+      return res.status(200).json({ product, productCategoryProduct });
+    
   } else if (method === "PUT") {
     const {id, name, price, productCategoryIds} = req.body;
     const isValid = id && name && price && productCategoryIds.length > 0;

@@ -28,6 +28,7 @@ const ProductPage = () => {
               href={`/backoffice/product/${item.id}`}
               assetUrl={item.assetUrl}
             />
+
           </Box>
         ))}
       </Box>
